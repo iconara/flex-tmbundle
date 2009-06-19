@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>beforeRunningCommand</key>
+	<string>nop</string>
+	<key>command</key>
+	<string>#!/usr/bin/env ruby -w
+
+# Switches between a view and its presentation model.
+# The script assumes that the view's file name ends with "View.mxml"  
+# or "View.as" and that the presentation model is located in a directory
+# called "model" in the same directory as the view, and has a file name
+# that ends in "Model.as".
+# 
+# For example:
+#
+# view/
+#   SomeView.mxml
+#   model/
+#     SomeModel.as
+
+require "#{ENV['TM_SUPPORT_PATH']}/lib/exit_codes"
+
+file_path = ENV['TM_FILEPATH']
+
+view_pattern  = /\/([\w\d]+)View\.(?:as|mxml)$/
+model_pattern = /model\/([\w\d]+)Model\.as$/
+
+if file_path =~ view_patterm
+	sibling_path = file_path.gsub(view_pattern, '/model/\1Model.as')
+elsif file_path =~ model_pattern
+	sibling_path = file_path.gsub(model_pattern, '\1View.')
+	
+	sibling_path &lt;&lt; "mxml" if File.exist? sibling_path + "mxml"
+	sibling_path &lt;&lt; "mxml" if File.exist? sibling_path + "as"
+end
+
+if ! sibling_path.nil? and File.exist? sibling_path
+	`open #{sibling_path}`
+else
+	TextMate.exit_show_tool_tip "No corresponding view/model found."
+end</string>
+	<key>input</key>
+	<string>none</string>
+	<key>keyEquivalent</key>
+	<string>^_</string>
+	<key>name</key>
+	<string>Switch between view and model</string>
+	<key>output</key>
+	<string>showAsTooltip</string>
+	<key>scope</key>
+	<string>source.actionscript.3, text.xml.mxml</string>
+	<key>uuid</key>
+	<string>4DC571CB-25E1-47B0-ADDD-BDA84C87FDEC</string>
+</dict>
+</plist>
