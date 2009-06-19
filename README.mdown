@@ -1,7 +1,7 @@
 TextMate Flex Bundle
 ====================
 
-This is a fork of [Simon Gregory](http://blog.simongregory.com)s Flex bundle, with modifications and additions by [Theo Hultberg](http://blog.iconara.net).
+This is a fork of [Simon Gregory](http://blog.simongregory.com)s [Flex bundle](http://github.com/simongregory/flex-tmbundle), with modifications and additions by [Theo Hultberg](http://blog.iconara.net).
 
 Installation
 ------------
