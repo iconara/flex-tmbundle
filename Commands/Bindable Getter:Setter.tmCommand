@@ -28,20 +28,21 @@ else
     class_type = accessor_match[0][2]
 end
 
-snip = 'private var ${1:_' + accessor_name + '}:${2:' + class_type + '};
+snip = 'private var ${1:_' + accessor_name + '} : ${2:' + class_type + '};
 
 ' if accessor_match.empty?
 
 snip += '[Bindable(event="propertyChange")]
-public function get ${3:' + accessor_name + '}():${2:' + class_type + '} { 
+public function get ${3:' + accessor_name + '}( ) : ${2:' + class_type + '} { 
 	return ${1:_' + accessor_name + '}; 
 }
 
-public function set ${3:' + accessor_name + '}( value:${2:' + class_type + '} ):void
-{
+public function set ${3:' + accessor_name + '}( value:${2:' + class_type + '} ) : void {
 	var oldValue:${2:' + class_type + '} = ${1:_' + accessor_name + '};
-	if (value !== oldValue){
+	
+	if ( value != oldValue ) {
 		${1:_' + accessor_name + '} = value;
+		
 		dispatchEvent(mx.events.PropertyChangeEvent.createUpdateEvent(this, "${3:' + accessor_name + '}", oldValue, value));
 	}
 }$0'
